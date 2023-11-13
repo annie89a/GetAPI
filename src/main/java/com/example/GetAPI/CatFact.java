@@ -1,10 +1,15 @@
 package com.example.GetAPI;
 
-public class MeowFact {
+import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClient;
+
+@Component
+public class CatFact {
     String fact;
     int length;
 
-    public MeowFact()
+
+    public CatFact()
     {
 
     }
@@ -31,5 +36,16 @@ public class MeowFact {
                 "fact='" + fact + '\'' +
                 ", length=" + length +
                 '}';
+    }
+
+    public CatFact getFacts(String url) {
+        WebClient.Builder builder = WebClient.builder();
+
+        return builder.build()
+                .get()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(CatFact.class)
+                .block();
     }
 }
